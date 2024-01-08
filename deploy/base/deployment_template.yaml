@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: np-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: np-app
+  template:
+    metadata:
+      labels:
+        app: np-app
+    spec:
+      containers:
+      - name: np-container
+        image: odakscore.azurecr.io/kube-ops/netpol-viewer:dev.latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+          - name: akscoreregcred

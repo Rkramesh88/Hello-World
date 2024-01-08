@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name:
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: int-nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: aksdevtest.odazprivatecloud.com
+      http:
+        paths:
+          - path: /services/(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name:
+                port:
+                  number: 8080

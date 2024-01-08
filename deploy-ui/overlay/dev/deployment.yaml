@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: np-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: np-app
+  template:
+    metadata:
+      labels:
+        app: np-app
+    spec:
+      serviceAccountName: np-sa
+      containers:
+      - name: np-container
+        image: odakscore.azurecr.io/kube-ops/netpol-viewer:dev.latest
+        env:
+            - name: HYSTRIX_CONTEXT
+              value: /services/np-app # update
+        ports:
+        - containerPort: 8080
+        resources:       # Note the change here
+          limits:
+            cpu: '1'
+            memory: 500Mi
+          requests:
+            cpu: 500m
+            memory: 400Mi
